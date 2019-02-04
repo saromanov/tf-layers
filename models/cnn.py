@@ -14,8 +14,8 @@ class CNN:
         if layer_type == 'pool':
             self.data = self.layer.append(tf.layers.max_pooling2d(self.data, xdim, ydim))
     
-    def make(self):
-        fc1 = tf.contrib.layers.flatten(conv2)
-        fc1 = tf.layers.dense(fc1, 1024)
-        fc1 = tf.layers.dropout(fc1, rate=dropout, training=is_training)
+    def make(self, dense, n_classes):
+        fc1 = tf.contrib.layers.flatten(self.data)
+        fc1 = tf.layers.dense(fc1, dense)
+        fc1 = tf.layers.dropout(fc1, rate=dropout, training=True)
         return tf.layers.dense(fc1, n_classes)
