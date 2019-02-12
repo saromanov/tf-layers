@@ -13,7 +13,7 @@ def get_requirements():
 
 if __name__ == "__main__":
     setuptools.setup(
-        name="tf-layers",
+        name="tflayers",
         version=version,
         description="Collection of neural network layers based on Tensorflow",
         author="Sergey Romanov",
@@ -22,7 +22,7 @@ if __name__ == "__main__":
             TODO
            """),
         packages=[
-            "models",
+            "tflayers",
         ],
         classifiers=[
             "Development Status :: 5 - Production/Stable",
