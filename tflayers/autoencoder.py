@@ -38,7 +38,8 @@ class VariationalAutoencoder:
         self.n_input = n_input
         self.n_hidden = n_hidden
         self.weights = weights
-
+    
+    def make(self):
         self.x = tf.placeholder(tf.float32, [None, self.n_input])
         self.z_mean = tf.add(tf.matmul(self.x, self.weights['w1']), self.weights['b1'])
         self.z_log_sigma_sq = tf.add(tf.matmul(self.x, self.weights['log_sigma_w1']), self.weights['log_sigma_b1'])
@@ -50,26 +51,11 @@ class VariationalAutoencoder:
                                            - tf.square(self.z_mean)
                                            - tf.exp(self.z_log_sigma_sq), 1)
         self.cost = tf.reduce_mean(reconstr_loss + latent_loss)
-        self.optimizer = optimizer.minimize(self.cost)
-
-        init = tf.global_variables_initializer()
-        self.sess = tf.Session()
-        self.sess.run(init)
+        return optimizer.minimize(self.cost)
 
     def partial_fit(self, X):
         cost, opt = self.sess.run((self.cost, self.optimizer), feed_dict={self.x: X})
         return cost
-
-    def calc_total_cost(self, X):
-        return self.sess.run(self.cost, feed_dict = {self.x: X})
-
-    def transform(self, X):
-        return self.sess.run(self.z_mean, feed_dict={self.x: X})
-
-    def generate(self, hidden = None):
-        if hidden is None:
-            hidden = self.sess.run(tf.random_normal([1, self.n_hidden]))
-        return self.sess.run(self.reconstruction, feed_dict={self.z: hidden})
 
     def reconstruct(self, X):
         return self.sess.run(self.reconstruction, feed_dict={self.x: X})
