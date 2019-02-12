@@ -1,6 +1,7 @@
 import tensorflow as tf
 from tensorflow.contrib import rnn
 
+
 def RNN(x, weights, biases, num_hidden, timesteps=20):
     x = tf.unstack(x, timesteps, 1)
     lstm_cell = rnn.BasicLSTMCell(num_hidden, forget_bias=1.0)
